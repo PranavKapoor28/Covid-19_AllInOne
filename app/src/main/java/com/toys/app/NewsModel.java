@@ -1,25 +1,29 @@
-package com.toys.app.News;
+package com.toys.app;
 
     public class NewsModel {
-        private String flag1,author,title,description,content;
+        private String author,title,description,content,coverImage;
 
         public NewsModel() {
         }
 
-        public NewsModel(String flag1, String author, String title, String description, String content) {
-            this.flag1 = flag1;
+        public NewsModel(String author, String title, String description, String content,String coverImage) {
+
             this.author = author;
             this.title = title;
             this.description = description;
             this.content = content;
+            this.coverImage=coverImage;
             }
 
-        public String getFlag() {
-            return flag1;
+        public static void add(NewsModel news) {
         }
 
-        public void setFlag(String flag1) {
-            this.flag1 = flag1;
+        public String getCoverImage() {
+            return coverImage;
+        }
+
+        public void setCoverImage(String coverImage) {
+            this.coverImage = coverImage;
         }
 
         public String getAuthor() {

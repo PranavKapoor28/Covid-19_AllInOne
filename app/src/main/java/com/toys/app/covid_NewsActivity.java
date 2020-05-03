@@ -1,14 +1,11 @@
 package com.toys.app;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ScrollView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,29 +15,32 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
-import com.leo.simplearcloader.SimpleArcLoader;
 
-import org.eazegraph.lib.charts.PieChart;
-import org.eazegraph.lib.models.PieModel;
-import org.json.JSONException;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.List;
 
-    TextView tvCases,tvRecovered,tvCritical,tvActive,tvTodayCases,tvTotalDeaths,tvTodayDeaths,tvAffectedCountries;
-    SimpleArcLoader simpleArcLoader;
-    ScrollView scrollView;
-    PieChart pieChart;
+public class covid_NewsActivity extends AppCompatActivity {
+
+ RecyclerView recyclerView;
+ List<NewsModel> news;
+ private static String JSON_URL="http://newsapi.org/v2/top-headlines?country=in&apiKey=b58d2dda442b496eac9b741d350d678f";
+ ListNewsAdapter adapter;
+
 
 
 
@@ -50,25 +50,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        tvCases = findViewById(R.id.tvCases);
-        tvRecovered = findViewById(R.id.tvRecovered);
-        tvCritical = findViewById(R.id.tvCritical);
-        tvActive = findViewById(R.id.tvActive);
-        tvTodayCases = findViewById(R.id.tvTodayCases);
-        tvTotalDeaths = findViewById(R.id.tvTotalDeaths);
-        tvTodayDeaths = findViewById(R.id.tvTodayDeaths);
-        tvAffectedCountries = findViewById(R.id.tvAffectedCountries);
-
-        simpleArcLoader = findViewById(R.id.loader);
-        scrollView = findViewById(R.id.scrollStats);
-        pieChart = findViewById(R.id.piechart);
+        setContentView(R.layout.activity_covid__news);
 
 
+        recyclerView=findViewById(R.id.news_list);
+        news=new ArrayList<>();
         fetchData();
 
 
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        adapter=new ListNewsAdapter(getApplicationContext(),news);
+        recyclerView.setAdapter(adapter);
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
             Intent settingsIntent = new Intent(getApplicationContext(), contactActivity.class);
             startActivity(settingsIntent);
 
-    }
+        }
 
 
 
@@ -137,71 +129,45 @@ public class MainActivity extends AppCompatActivity {
     }
     private void fetchData() {
 
-        String url  = "https://corona.lmao.ninja/v2/all/";
-
-        simpleArcLoader.start();
-
-        StringRequest request = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
+        RequestQueue queue=Volley.newRequestQueue(this);
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, JSON_URL, null,
+                new Response.Listener<JSONArray>() {
                     @Override
-                    public void onResponse(String response) {
-
+                    public void onResponse(JSONArray response) {
                         try {
-                            JSONObject jsonObject = new JSONObject(response.toString());
+                            JSONObject Obj = response.getJSONObject(0);
 
-                            tvCases.setText(jsonObject.getString("cases"));
-                            tvRecovered.setText(jsonObject.getString("recovered"));
-                            tvCritical.setText(jsonObject.getString("critical"));
-                            tvActive.setText(jsonObject.getString("active"));
-                            tvTodayCases.setText(jsonObject.getString("todayCases"));
-                            tvTotalDeaths.setText(jsonObject.getString("deaths"));
-                            tvTodayDeaths.setText(jsonObject.getString("todayDeaths"));
-                            tvAffectedCountries.setText(jsonObject.getString("affectedCountries"));
+                            JSONArray jsonArry = Obj.optJSONArray("articles");
 
+                            for (int i = 0; i < jsonArry.length(); i++) {
+                                //gets each JSON object within the JSON array
+                                JSONObject jsonObject = jsonArry.getJSONObject(i);
 
-                            pieChart.addPieSlice(new PieModel("Cases",Integer.parseInt(tvCases.getText().toString()), Color.parseColor("#FFA726")));
-                            pieChart.addPieSlice(new PieModel("Recoverd",Integer.parseInt(tvRecovered.getText().toString()), Color.parseColor("#66BB6A")));
-                            pieChart.addPieSlice(new PieModel("Deaths",Integer.parseInt(tvTotalDeaths.getText().toString()), Color.parseColor("#EF5350")));
-                            pieChart.addPieSlice(new PieModel("Active",Integer.parseInt(tvActive.getText().toString()), Color.parseColor("#29B6F6")));
-                            pieChart.startAnimation();
+                                NewsModel news = new NewsModel();
+                                news.setAuthor(jsonObject.optString("author"));
+                                news.setTitle(jsonObject.optString("title"));
+                                news.setDescription(jsonObject.optString("description"));
+                                news.setCoverImage(jsonObject.optString("CoverImage"));
+                                news.setContent(jsonObject.optString("content"));
 
-                            simpleArcLoader.stop();
-                            simpleArcLoader.setVisibility(View.GONE);
-                            scrollView.setVisibility(View.VISIBLE);
-
-
-
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            simpleArcLoader.stop();
-                            simpleArcLoader.setVisibility(View.GONE);
-                            scrollView.setVisibility(View.VISIBLE);
+                                news.add(news);
+                            }
+                        }catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
 
-
-                    }
-                },  new Response.ErrorListener() {
+                }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                simpleArcLoader.stop();
-                simpleArcLoader.setVisibility(View.GONE);
-                scrollView.setVisibility(View.VISIBLE);
-                Toast.makeText(MainActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.d("tag","onErrorResponse:"+error.getMessage());
             }
+
         });
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(request);
-
-
+        queue.add(request);
     }
 
-    public void goTrackCountries(View view) {
-
-        startActivity(new Intent(getApplicationContext(),AffectedCountries.class));
-
-    }
 
     @Override
     // This method is called whenever an item in the options menu is selected.

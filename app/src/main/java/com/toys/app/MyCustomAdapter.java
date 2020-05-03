@@ -25,7 +25,7 @@ public class MyCustomAdapter extends ArrayAdapter<CountryModel> {
     private List<CountryModel> countryModelsListFiltered;
 
     public MyCustomAdapter( Context context, List<CountryModel> countryModelsList) {
-        super(context, R.layout.list_custom_item,countryModelsList);
+        super(context, R.layout.list_row,countryModelsList);
 
         this.context = context;
         this.countryModelsList = countryModelsList;
@@ -37,7 +37,7 @@ public class MyCustomAdapter extends ArrayAdapter<CountryModel> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_custom_item,null,true);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_row,null,true);
         TextView tvCountryName = view.findViewById(R.id.tvCountryName);
         ImageView imageView = view.findViewById(R.id.imageFlag);
 

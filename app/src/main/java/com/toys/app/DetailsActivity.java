@@ -1,4 +1,4 @@
-package com.toys.app.News;
+package com.toys.app;
 
 
 import android.content.Intent;

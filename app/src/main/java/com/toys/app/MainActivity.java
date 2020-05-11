@@ -10,14 +10,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -25,9 +19,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
 import com.leo.simplearcloader.SimpleArcLoader;
 
 import org.eazegraph.lib.charts.PieChart;
@@ -51,7 +42,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         tvCases = findViewById(R.id.tvCases);
         tvRecovered = findViewById(R.id.tvRecovered);
         tvCritical = findViewById(R.id.tvCritical);
@@ -67,74 +59,10 @@ public class MainActivity extends AppCompatActivity {
 
 
         fetchData();
-
-
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
-
-
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
-
-
-        mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow,
-                R.id.nav_tools, R.id.nav_share, R.id.nav_send)
-                .setDrawerLayout(drawer)
-                .build();
-        onNavigationItemSelected(navigationView.getMenu().getItem(0));
-
-
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-        NavigationUI.setupWithNavController(navigationView, navController);
-
-
-    }
-
-    private  boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-
-        // Switch Fragments in a ViewPager on clicking items in Navigation Drawer
-        if (id == R.id.nav_info) {
-
-            Intent settingsIntent = new Intent(getApplicationContext(), contactActivity.class);
-            startActivity(settingsIntent);
-
     }
 
 
 
-
-        /*else if (id == R.id.nav_world) {
-            viewPager.setCurrentItem(Constants.WORLD);
-        } else if (id == R.id.nav_science) {
-            viewPager.setCurrentItem(Constants.SCIENCE);
-        } else if (id == R.id.nav_sport) {
-            viewPager.setCurrentItem(Constants.SPORT);
-        } else if (id == R.id.nav_environment) {
-            viewPager.setCurrentItem(Constants.ENVIRONMENT);
-        } else if (id == R.id.nav_society) {
-            viewPager.setCurrentItem(Constants.SOCIETY);
-        } else if (id == R.id.nav_fashion) {
-            viewPager.setCurrentItem(Constants.FASHION);
-        } else if (id == R.id.nav_business) {
-            viewPager.setCurrentItem(Constants.BUSINESS);
-        } else if (id == R.id.nav_culture) {
-            viewPager.setCurrentItem(Constants.CULTURE);
-        }*/
-
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
     private void fetchData() {
 
         String url  = "https://corona.lmao.ninja/v2/all/";
@@ -203,30 +131,17 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
     @Override
-    // This method is called whenever an item in the options menu is selected.
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            Intent settingsIntent = new Intent(this, contactActivity.class);
-            startActivity(settingsIntent);
-            return true;
-        }
+    public boolean onOptionsItemSelected(MenuItem item){
+        Intent myIntent = new Intent(getApplicationContext(), HomeActivity.class);
+        startActivityForResult(myIntent, 0);
+
         return super.onOptionsItemSelected(item);
     }
 
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.news, menu);
         return true;
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
-                || super.onSupportNavigateUp();
-    }
 }

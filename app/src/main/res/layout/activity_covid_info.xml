@@ -27,13 +27,14 @@
 
                 <TextView
                     android:id="@+id/textView2"
-                    android:layout_width="127dp"
-                    android:layout_height="40dp"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="20sp"
+                    android:gravity="center"
                     android:text="Covid-19"
-                    android:textColor="#FA0D0DE4"
 
+                    android:textColor="#FA0D0DE4"
                     android:textSize="30sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"

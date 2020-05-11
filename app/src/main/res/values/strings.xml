@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">COVID-19 Tracker</string>
+    <string name="app_name">COVID-ALLInOne</string>
     <string name="title_activity_navbar">navbarActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -16,4 +16,6 @@
     <string name="menu_send">Send</string>
     <string name="title_activity_navigation">navigationActivity</string>
     <string name="title_activity_news">newsActivity</string>
+    <string name="title_activity_covid__news">covid_NewsActivity</string>
+    <string name="title_activity_main">MainActivity</string>
 </resources>

@@ -108,16 +108,26 @@
                 android:layout_marginRight="20dp"
                 android:background="@color/color_two" />
 
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="32sp"
-                android:text="Creator of App"
+                android:text="Developed By"
                 android:textColor="#0C0C0C"
                 android:textSize="28sp"
                 android:textStyle="bold"></TextView>
 
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="149dp"
+                android:layout_height="27dp"
+                android:layout_gravity="center"
+                android:text="Pranav Kapoor"
+                android:textColor="#F80A0A0A"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="wrap_content"

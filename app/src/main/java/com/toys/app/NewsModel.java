@@ -1,17 +1,17 @@
 package com.toys.app;
 
     public class NewsModel {
-        private String author,title,description,content,coverImage;
+        private String title,description,link,pubdate,coverImage;
 
         public NewsModel() {
         }
 
-        public NewsModel(String author, String title, String description, String content,String coverImage) {
+        public NewsModel(String title, String description, String link,String pubdate,String coverImage) {
 
-            this.author = author;
             this.title = title;
             this.description = description;
-            this.content = content;
+            this.link = link;
+            this.pubdate =pubdate;
             this.coverImage=coverImage;
             }
 
@@ -24,14 +24,6 @@ package com.toys.app;
 
         public void setCoverImage(String coverImage) {
             this.coverImage = coverImage;
-        }
-
-        public String getAuthor() {
-            return author;
-        }
-
-        public void setAuthor(String country) {
-            this.author = author;
         }
 
         public String getTitle() {
@@ -50,13 +42,19 @@ package com.toys.app;
             this.description = description;
         }
 
-        public String getContent() {
-            return content;
+        public String getLink() {
+            return link;
         }
 
-        public void setContent(String content) {
-            this.content = content;
+        public void setLink(String link) {
+            this.link = link;
         }
 
+        public String getPubdate() {
+            return pubdate;
+        }
 
+        public void setPubdate(String pubdate) {
+            this.pubdate = pubdate;
+        }
     }

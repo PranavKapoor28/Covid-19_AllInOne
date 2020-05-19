@@ -1,6 +1,7 @@
 package com.toys.app;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,12 +9,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.request.RequestOptions;
-import com.squareup.picasso.Picasso;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by Aws on 11/03/2018.
@@ -21,32 +22,41 @@ import java.util.List;
 
 public class ListNewsAdapter extends RecyclerView.Adapter<ListNewsAdapter.ViewHolder> {
 
-    LayoutInflater inflater;
-    List<NewsModel> news;
+    private ArrayList<NewsModel> news=new ArrayList<>();
+    private Context context;
 
 
     RequestOptions option;
 
-    public ListNewsAdapter(Context mContext,List<NewsModel> news)
+    public ListNewsAdapter(Context context)
     {
-        this.inflater=LayoutInflater.from(mContext);
-        this.news = news;
+        this.context=context;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view=inflater.inflate(R.layout.list_news_item,parent,false);
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.list_news_item,parent,false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
 
-        holder.Author.setText(news.get(position).getAuthor());
+        holder.Description.setText(news.get(position).getDescription());
         holder.Title.setText(news.get(position).getTitle());
-        Picasso.get().load(news.get(position).getCoverImage()).into(holder.cover_image);
+        holder.pubdate.setText(news.get(position).getPubdate());
+        holder.parent.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(@NonNull View v) {
+        Intent intent=new Intent(context,DetailsActivity.class);
+        intent.putExtra("url",news.get(position).getLink());
+        context.startActivity(intent);
+    }
+});
+      /* Picasso.get().load(news.get(position).getCoverImage()).into(holder.cover_image);*/
+
 
     }
 
@@ -54,16 +64,17 @@ public class ListNewsAdapter extends RecyclerView.Adapter<ListNewsAdapter.ViewHo
     public int getItemCount() {
         return news.size();
     }
-/*
-    private Context mContext ;
-    private List<NewsModel> mData ;
-    RequestOptions option;*/
 
+public void setNews(ArrayList<NewsModel> news){
+    this.news=news;
+    notifyDataSetChanged();
+}
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView Author,Title ;
+        CardView parent;
+        TextView Title,Description,pubdate ;
         ImageView cover_image;
 
 
@@ -71,10 +82,12 @@ public class ListNewsAdapter extends RecyclerView.Adapter<ListNewsAdapter.ViewHo
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            Author = itemView.findViewById(R.id.Author);
-            Title = itemView.findViewById(R.id.Title);
 
-            cover_image = itemView.findViewById(R.id.coverImage);
+            Title = itemView.findViewById(R.id.Title);
+            Description = itemView.findViewById(R.id.Description);
+            pubdate = itemView.findViewById(R.id.pubdate);
+            parent=itemView.findViewById(R.id.cardView);
+          /*  cover_image = itemView.findViewById(R.id.coverImage);*/
 
         }
     }

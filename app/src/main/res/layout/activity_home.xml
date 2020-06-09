@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000"
+    android:background="#FC14192E"
     tools:context=".HomeActivity">
 
 
@@ -23,7 +23,7 @@
             android:layout_width="304dp"
             android:layout_height="163dp"
             android:layout_centerHorizontal="true"
-            app:srcCompat="@drawable/covidlogo1" />
+            app:srcCompat="@drawable/covidl" />
 
     </RelativeLayout>
 

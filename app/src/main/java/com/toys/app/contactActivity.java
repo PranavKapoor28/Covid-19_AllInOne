@@ -4,10 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class contactActivity extends AppCompatActivity {
+
+    TextView linkedin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,6 +19,8 @@ public class contactActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         setContentView(R.layout.activity_contact);
+
+
     }
 
     @Override
@@ -25,6 +30,8 @@ public class contactActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 
     public boolean onCreateOptionsMenu(Menu menu) {
         return true;

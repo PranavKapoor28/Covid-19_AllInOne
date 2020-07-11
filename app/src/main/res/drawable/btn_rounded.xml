@@ -4,31 +4,31 @@
         <shape android:shape="rectangle">
 
             <gradient
-                android:startColor="#A1F77D"
-                android:endColor="#0D8D14"
+                android:startColor="#F3A304"
+                android:endColor="#E8D905"
                 android:angle="270" />
             <size android:width="350dp" android:height="50dp"/>
 
-            <corners android:radius="18dp"/>
+            <corners android:radius="0dp"/>
         </shape>
     </item>
 
     <item>
         <shape>
             <gradient
-                android:startColor="#89cbee"
-                android:endColor="#004F81"
+                android:startColor="#CC04F393"
+                android:endColor="#CE05E8D1"
                 android:angle="270" />
             <stroke
-                android:width="1dp"
-                android:color="#4aa5d4" />
+                android:width="3dp"
+                android:color="#04FAF7F7" />
             <corners
-                android:radius="7dp" />
+                android:radius="0dp" />
             <padding
-                android:left="10dp"
-                android:top="10dp"
-                android:right="10dp"
-                android:bottom="10dp" />
+                android:left="0dp"
+                android:top="0dp"
+                android:right="0dp"
+                android:bottom="0dp" />
         </shape>
     </item>
 </selector>

@@ -29,15 +29,15 @@ public class DetailsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if(null!=intent){
 
-        String url = intent.getStringExtra("url");
-        if(null!=url){
+            String url = intent.getStringExtra("url");
+            if(null!=url){
 
 
-        webView = findViewById(R.id.webView);
-        webView.setWebViewClient(new WebViewClient());
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.loadUrl(url);
-        }
+                webView = findViewById(R.id.webView);
+                webView.setWebViewClient(new WebViewClient());
+                webView.getSettings().setJavaScriptEnabled(true);
+                webView.loadUrl(url);
+            }
         }
     }
 
@@ -47,9 +47,9 @@ public class DetailsActivity extends AppCompatActivity {
             getObbDir();
         }
         else{
-        super.onBackPressed();
+            super.onBackPressed();
+        }
     }
-}
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){

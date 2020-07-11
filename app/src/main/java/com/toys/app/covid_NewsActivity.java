@@ -24,7 +24,7 @@ import java.util.ArrayList;
 
 public class covid_NewsActivity extends AppCompatActivity {
 
-    private static final String TAG="covid_NewsActivity";
+    private static final String TAG = "covid_NewsActivity";
     private ArrayList<NewsModel> news;
     private RecyclerView recyclerView;
     private ListNewsAdapter Adapter;
@@ -32,15 +32,15 @@ public class covid_NewsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-     
+
         setContentView(R.layout.activity_covid__news);
         getSupportActionBar().setTitle("LATEST NEWS!!");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        news=new ArrayList<>();
+        news = new ArrayList<>();
         recyclerView = findViewById(R.id.news_list);
-        Adapter=new ListNewsAdapter(this);
+        Adapter = new ListNewsAdapter(this);
         recyclerView.setAdapter(Adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         new GetNews().execute();
@@ -56,8 +56,7 @@ public class covid_NewsActivity extends AppCompatActivity {
             if (null != inputStream) {
                 try {
                     initXMLPullParser(inputStream);
-                }
-                catch (XmlPullParserException | IOException e) {
+                } catch (XmlPullParserException | IOException e) {
                     e.printStackTrace();
                 }
             }
@@ -73,7 +72,7 @@ public class covid_NewsActivity extends AppCompatActivity {
         private InputStream getInputStream() {
             try {
 
-                URL url = new URL("http://feeds.feedburner.com/ndtvnews-top-stories?format=xml");
+                URL url = new URL("https://timesofindia.indiatimes.com/rssfeedstopstories.cms?format=xml");
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("GET");
                 connection.setDoInput(true);
@@ -109,11 +108,11 @@ public class covid_NewsActivity extends AppCompatActivity {
                     if (parser.getName().equals("item")) {
                         parser.require(XmlPullParser.START_TAG, null, "item");
 
-                        String title="";
-                        String description="";
-                        String link="";
-                        String pubdate="";
-                        String coverImage="";
+                        String title = "";
+                        String description = "";
+                        String link = "";
+                        String pubdate = "";
+                        String coverImage = "";
 
                         while (parser.next() != XmlPullParser.END_TAG) {
                             if (parser.getEventType() != XmlPullParser.START_TAG) {
@@ -122,29 +121,22 @@ public class covid_NewsActivity extends AppCompatActivity {
                             String tagName = parser.getName();
                             if (tagName.equals("title")) {
 
-                            title=getContent(parser,"title");
+                                title = getContent(parser, "title");
                             } else if (tagName.equals("description")) {
-                                description=getContent(parser,"description");
-                            }
-                            else if (tagName.equals("link")) {
-                                link=getContent(parser,"link");
-                            }
-
-                            else if (tagName.equals("pubdate")) {
-                                pubdate=getContent(parser,"pubdate");
-                            }
-                            else
-                                {
+                                description = getContent(parser, "description");
+                            } else if (tagName.equals("link")) {
+                                link = getContent(parser, "link");
+                            } else if (tagName.equals("pubdate")) {
+                                pubdate = getContent(parser, "pubdate");
+                            } else {
                                 skipTag(parser);
-                                }
+                            }
                         }
-                        NewsModel item=new NewsModel(title,description,link,pubdate,coverImage);
+                        NewsModel item = new NewsModel(title, description, link, pubdate, coverImage);
                         news.add(item);
+                    } else {
+                        skipTag(parser);
                     }
-                    else
-                        {
-                            skipTag(parser);
-                        }
 
                 }
 
@@ -155,36 +147,36 @@ public class covid_NewsActivity extends AppCompatActivity {
 
     private String getContent(XmlPullParser parser, String tagName) throws IOException, XmlPullParserException {
 
-        String content="";
-        parser.require(XmlPullParser.START_TAG,null,tagName);
-        if(parser.next()==XmlPullParser.TEXT){
-            content=parser.getText();
+        String content = "";
+        parser.require(XmlPullParser.START_TAG, null, tagName);
+        if (parser.next() == XmlPullParser.TEXT) {
+            content = parser.getText();
             parser.next();
         }
-    return content;
+        return content;
     }
 
-public void skipTag(XmlPullParser parser) throws XmlPullParserException, IOException {
-        if(parser.getEventType()!=XmlPullParser.START_TAG){
+    public void skipTag(XmlPullParser parser) throws XmlPullParserException, IOException {
+        if (parser.getEventType() != XmlPullParser.START_TAG) {
             throw new IllegalStateException();
         }
-        int number=1;
-        while(number!=0){
-            switch (parser.next()){
+        int number = 1;
+        while (number != 0) {
+            switch (parser.next()) {
                 case XmlPullParser.START_TAG:
                     number++;
                     break;
                 case XmlPullParser.END_TAG:
                     number--;
                     break;
-                    default:
-                        break;
+                default:
+                    break;
             }
         }
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item) {
         Intent myIntent = new Intent(getApplicationContext(), HomeActivity.class);
         startActivityForResult(myIntent, 0);
 

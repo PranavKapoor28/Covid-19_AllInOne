@@ -48,14 +48,14 @@ public class ListNewsAdapter extends RecyclerView.Adapter<ListNewsAdapter.ViewHo
         holder.Title.setText(news.get(position).getTitle());
         holder.pubdate.setText(news.get(position).getPubdate());
         holder.parent.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(@NonNull View v) {
-        Intent intent=new Intent(context,DetailsActivity.class);
-        intent.putExtra("url",news.get(position).getLink());
-        context.startActivity(intent);
-    }
-});
-      /* Picasso.get().load(news.get(position).getCoverImage()).into(holder.cover_image);*/
+            @Override
+            public void onClick(@NonNull View v) {
+                Intent intent=new Intent(context,DetailsActivity.class);
+                intent.putExtra("url",news.get(position).getLink());
+                context.startActivity(intent);
+            }
+        });
+        /* Picasso.get().load(news.get(position).getCoverImage()).into(holder.cover_image);*/
 
 
     }
@@ -65,10 +65,10 @@ public class ListNewsAdapter extends RecyclerView.Adapter<ListNewsAdapter.ViewHo
         return news.size();
     }
 
-public void setNews(ArrayList<NewsModel> news){
-    this.news=news;
-    notifyDataSetChanged();
-}
+    public void setNews(ArrayList<NewsModel> news){
+        this.news=news;
+        notifyDataSetChanged();
+    }
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -87,9 +87,8 @@ public void setNews(ArrayList<NewsModel> news){
             Description = itemView.findViewById(R.id.Description);
             pubdate = itemView.findViewById(R.id.pubdate);
             parent=itemView.findViewById(R.id.cardView);
-          /*  cover_image = itemView.findViewById(R.id.coverImage);*/
+            /*  cover_image = itemView.findViewById(R.id.coverImage);*/
 
         }
     }
 }
-
